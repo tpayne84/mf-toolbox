@@ -10,6 +10,83 @@ namespace MFToolbox.Libs
 	/// </summary>
 	public class AliasTools
 	{
+		/// <summary>
+		/// Static resolution class.
+		/// </summary>
+		public static class resolve
+		{
+			/// <summary>
+			/// Resolves a property by its id.
+			/// </summary>
+			/// <param name="v"><see cref="Vault"/></param>
+			/// <param name="id">Property ID</param>
+			/// <returns><see cref="PropertyDefAdmin"/></returns>
+			public static PropertyDefAdmin propertyDefById(Vault v, int id) => v.PropertyDefOperations.GetPropertyDefAdmin( id );
+
+			/// <summary>
+			/// Resolves a workflow by id.
+			/// </summary>
+			/// <param name="v"><see cref="Vault"/></param>
+			/// <param name="id">Workflow ID</param>
+			/// <returns><see cref="WorkflowAdmin"/></returns>
+			public static WorkflowAdmin workflowById(Vault v, int id)
+			{
+				// Get all workflows.
+				List<WorkflowAdmin> workflows = v.WorkflowOperations.GetWorkflowsAdmin().Cast<WorkflowAdmin>().ToList();
+
+				// Filter to the workflow containing the state with the provided id.
+				return workflows.Single( wf => wf.Workflow.ID == id );
+			}
+
+			/// <summary>
+			/// Resolves a state by state.id
+			/// </summary>
+			/// <param name="v"><see cref="Vault"/></param>
+			/// <param name="id">State ID</param>
+			/// <param name="wfAdmin">Resolved <see cref="StateAdmin"/>'s owner <see cref="WorkflowAdmin"/></param>
+			/// <returns><see cref="StateAdmin"/>State with the passed id.</returns>
+			public static StateAdmin stateById(Vault v, int id, out WorkflowAdmin wfAdmin)
+			{
+				// Get all workflows.
+				List<WorkflowAdmin> workflows = v.WorkflowOperations.GetWorkflowsAdmin().Cast<WorkflowAdmin>().ToList();
+
+				// Filter to the workflow containing the state with the provided id.
+				wfAdmin = workflows.Single(wf => wf.States.Cast<State>().Any(s => s.ID == id));
+
+				// Ensure a result was found / extract the state from the workflow's states collection.
+				return wfAdmin?.States.Cast<StateAdmin>().FirstOrDefault(s => s.ID == id);
+			}
+
+			/// <summary>
+			/// Resolves a state transition by state.transition.id
+			/// </summary>
+			/// <param name="v"><see cref="Vault"/></param>
+			/// <param name="id">State Transition ID</param>
+			/// <param name="wfAdmin">Resolved <see cref="StateTransition"/>'s owner <see cref="WorkflowAdmin"/></param>
+			/// <returns><see cref="StateAdmin"/>State with the passed id.</returns>
+			public static StateTransition stateTransitionById(Vault v, int id, out WorkflowAdmin wfAdmin)
+			{
+				// Get all workflows.
+				List<WorkflowAdmin> workflows = v.WorkflowOperations.GetWorkflowsAdmin().Cast<WorkflowAdmin>().ToList();
+
+				// Filter to the workflow containing the state with the provided id.
+				wfAdmin = workflows.Single( wf => wf.StateTransitions.Cast< StateTransition >().Any( s => s.ID == id ) );
+
+				// Ensure a result was found / extract the state from the workflow's states collection.
+				return wfAdmin?.StateTransitions.Cast< StateTransition >().FirstOrDefault( st => st.ID == id );
+			}
+
+			/// <summary>
+			/// Resolves an <see cref="ObjectClassAdmin"/> by ID.
+			/// </summary>
+			/// <param name="v"><see cref="Vault"/></param>
+			/// <param name="id">Class ID</param>
+			/// <returns><see cref="ObjectClassAdmin"/></returns>
+			public static ObjectClassAdmin classById( Vault v, int id ) => v.ClassOperations.GetAllObjectClassesAdmin().Cast< ObjectClassAdmin >().FirstOrDefault( oc => oc.ID == id );
+
+			public static ObjTypeAdmin objTypeById( Vault v, int id ) => v.ObjectTypeOperations.GetObjectTypesAdmin().Cast< ObjTypeAdmin >().FirstOrDefault( x => x.ObjectType.ID == id );
+		}
+
 		#region Inner Classes
 
 		/// <summary>
@@ -105,16 +182,12 @@ namespace MFToolbox.Libs
 			/// Clears the aliases of <see cref="StateTransition"/> with the provided id.
 			/// </summary>
 			/// <param name="id">State Transition ID</param>
-			public bool StateTransitionAliases(int id)
+			public bool StateTransitionAlias(int id)
 			{
-				// Get all workflows.
-				List<WorkflowAdmin> workflows = this.Vault.WorkflowOperations.GetWorkflowsAdmin().Cast<WorkflowAdmin>().ToList();
-
-				// Filter to the workflow containing the state with the provided id.
-				WorkflowAdmin workflow = workflows.Single(wf => wf.States.Cast<State>().Any(s => s.ID == id));
+				WorkflowAdmin wfAdmin;
 
 				// Extract the state from the workflow's states collection.
-				StateTransition stateTransition = workflow.StateTransitions.Cast<StateTransition>().FirstOrDefault(st => st.ID == id);
+				StateTransition stateTransition = resolve.stateTransitionById( this.Vault, id, out wfAdmin );
 
 				// Ensure a match was found.
 				if (stateTransition != null)
@@ -123,7 +196,7 @@ namespace MFToolbox.Libs
 					stateTransition.SemanticAliases.Value = string.Empty;
 
 					// Save changes.
-					this.Vault.WorkflowOperations.UpdateWorkflowAdmin(workflow);
+					this.Vault.WorkflowOperations.UpdateWorkflowAdmin(wfAdmin);
 
 					// Return true as a match was not found.
 					return true;
@@ -137,16 +210,13 @@ namespace MFToolbox.Libs
 			/// Clears the aliases of the <see cref="State"/> with the given id.
 			/// </summary>
 			/// <param name="id">State ID</param>
-			public bool StateAliases(int id)
+			public bool StateAlias(int id)
 			{
-				// Get all workflows.
-				List< WorkflowAdmin > workflows = this.Vault.WorkflowOperations.GetWorkflowsAdmin().Cast<WorkflowAdmin>().ToList();
+				// Workflow State owner.
+				WorkflowAdmin wfAdmin;
 
-				// Filter to the workflow containing the state with the provided id.
-				WorkflowAdmin workflow = workflows.Single( wf => wf.States.Cast< State >().Any( s => s.ID == id ) );
-
-				// Extract the state from the workflow's states collection.
-				StateAdmin state = workflow.States.Cast< StateAdmin >().FirstOrDefault( s => s.ID == id );
+				// Resolve the state admin, by state id.
+				StateAdmin state = resolve.stateById( this.Vault, id, out wfAdmin );
 
 				// Ensure a match was found.
 				if( state != null )
@@ -155,7 +225,7 @@ namespace MFToolbox.Libs
 					state.SemanticAliases.Value = string.Empty;
 
 					// Save changes.
-					this.Vault.WorkflowOperations.UpdateWorkflowAdmin( workflow );
+					this.Vault.WorkflowOperations.UpdateWorkflowAdmin( wfAdmin );
 
 					// Return true as a match was not found.
 					return true;
@@ -169,29 +239,26 @@ namespace MFToolbox.Libs
 			/// Clears the workflow aliases of the <see cref="Workflow"/> with the provide id.
 			/// </summary>
 			/// <param name="id">Workflow ID</param>
-			public void WorkflowAliases(int id)
+			public void WorkflowAlias(int id)
 			{
-				// Get all workflows.
-				List<WorkflowAdmin> workflows = this.Vault.WorkflowOperations.GetWorkflowsAdmin().Cast<WorkflowAdmin>().ToList();
-
-				// Filter to the workflow with the provided id.
-				WorkflowAdmin workflow = workflows.Single( wf => wf.Workflow.ID == id );
+				// Resolve the workflow admin.
+				WorkflowAdmin workflow = resolve.workflowById( this.Vault, id );
 
 				// Clear the Aliases.
 				workflow.SemanticAliases.Value = string.Empty;
 
 				// Save changes.
-				this.Vault.WorkflowOperations.UpdateWorkflowAdmin(workflow);
+				this.Vault.WorkflowOperations.UpdateWorkflowAdmin( workflow );
 			}
 
 			/// <summary>
 			/// Clears the Aliases on the <see cref="PropertyDef"/> with the provided id.
 			/// </summary>
 			/// <param name="id">PropertyDef ID</param>
-			public void PropertyAliases(int id)
+			public void PropertyAlias(int id)
 			{
 				// Get the PropertyDefAdmin with using the provided id.
-				PropertyDefAdmin propDefAdmin = this.Vault.PropertyDefOperations.GetPropertyDefAdmin( id );
+				PropertyDefAdmin propDefAdmin = resolve.propertyDefById( this.Vault, id );
 				
 				// Clear the aliases.
 				propDefAdmin.SemanticAliases.Value = string.Empty;
@@ -204,7 +271,7 @@ namespace MFToolbox.Libs
 			/// Clears the aliases on the <see cref="ObjectClass"/>with the provided id.
 			/// </summary>
 			/// <param name="id"><see cref="ObjectClass"/> ID</param>
-			public void ClassAliases(int id)
+			public void ClassAlias(int id)
 			{
 				// Get the Class Admin with the provided id.
 				ObjectClassAdmin classAdmin = this.Vault.ClassOperations.GetObjectClassAdmin( id );
@@ -220,7 +287,7 @@ namespace MFToolbox.Libs
 			/// Clears the aliases on the <see cref="ObjType"/> with the provided id.
 			/// </summary>
 			/// <param name="id">Object ID</param>
-			public void ObjTypeAliases(int id)
+			public void ObjTypeAlias(int id)
 			{
 				// Get the ObjType Admin using the provided id.
 				ObjTypeAdmin objAdmin = this.Vault.ObjectTypeOperations.GetObjectTypeAdmin( id );
@@ -326,77 +393,242 @@ namespace MFToolbox.Libs
 				this.Vault = v;
 			}
 
+			/// <summary>
+			/// Utility method used to remove an alias from a semantic aliases object.
+			/// </summary>
+			/// <param name="aliases"><see cref="SemanticAliases"/></param>
+			/// <param name="toRemove">Alias to remove</param>
+			/// <returns>True when removed.</returns>
+			private bool removeAlias(SemanticAliases aliases, string toRemove)
+			{
+				// Get the aliases.
+				List<string> results = aliases.Value.Split(new[] { ';' }, StringSplitOptions.RemoveEmptyEntries).ToList();
+
+				// Check for aliases.
+				if (results.Any())
+				{
+					// There are aliases, process them.
+					if (results.Contains(toRemove))
+					{
+						// Remove this alias.
+						results.Remove(toRemove);
+						return true;
+					}
+				}
+
+				return false;
+			}
+
+			/// <summary>
+			/// Local <see cref="Vault"/> reference.
+			/// </summary>
 			private Vault Vault { get; set; }
+
+			/// <summary>
+			/// Format settings.
+			/// </summary>
 			private Settings settings { get; set; }
 
+			/// <summary>
+			/// Value List Alias Removal.
+			/// </summary>
+			/// <param name="id">Value List ID.</param>
+			/// <param name="alias">Alias to remove.</param>
 			public void ValueListAlias(int id, string alias )
 			{
 				throw new NotImplementedException();
 			}
 
+			/// <summary>
+			/// Value List Alias Removal.
+			/// </summary>
+			/// <param name="id">Value List ID.</param>
+			/// <param name="aliases">Aliases to remove.</param>
 			public void ValueListAliases(int id, string[] aliases )
 			{
 				throw new NotImplementedException();
 			}
 
+			/// <summary>
+			/// State Transition Alias Removal.
+			/// </summary>
+			/// <param name="id">State Transition ID.</param>
+			/// <param name="alias">Alias to remove.</param>
 			public void StateTransitionAlias(int id, string alias)
 			{
-				throw new NotImplementedException();
+				WorkflowAdmin wfAdmin;
+				StateTransition stateTransition = resolve.stateTransitionById( this.Vault, id, out wfAdmin );
+
+				// Search and Destroy.
+				if( removeAlias(stateTransition.SemanticAliases, alias) )
+				{
+					// Save changes.
+					this.Vault.WorkflowOperations.UpdateWorkflowAdmin(wfAdmin);
+				}
 			}
 
+			/// <summary>
+			/// State Transition Alias Removal.
+			/// </summary>
+			/// <param name="id">State Transition ID.</param>
+			/// <param name="aliases">Aliases to remove.</param>
 			public void StateTransitionAliases(int id, string[] aliases)
 			{
-				throw new NotImplementedException();
+				// Pass through loop.
+				foreach( string alias in aliases )
+					StateTransitionAlias( id, alias );
 			}
 
+			/// <summary>
+			/// State Alias Removal.
+			/// </summary>
+			/// <param name="id">State ID</param>
+			/// <param name="alias">Alias to remove.</param>
 			public void StateAlias(int id, string alias)
 			{
-				throw new NotImplementedException();
+				WorkflowAdmin wfAdmin;
+				StateAdmin state = resolve.stateById( this.Vault, id, out wfAdmin );
+
+				// Search and Destroy.
+				if (removeAlias(state.SemanticAliases, alias))
+				{
+					// Save changes.
+					this.Vault.WorkflowOperations.UpdateWorkflowAdmin( wfAdmin );
+				}
 			}
 
+			/// <summary>
+			/// State Alias Removal.
+			/// </summary>
+			/// <param name="id">State ID</param>
+			/// <param name="aliases">Aliases to remove.</param>
 			public void StateAliases(int id, string[] aliases)
 			{
-				throw new NotImplementedException();
+				// Pass through.
+				foreach( string alias in aliases )
+					StateAlias( id, alias );
 			}
 
+			/// <summary>
+			/// Workflow Alias Removal.
+			/// </summary>
+			/// <param name="id">Workflow ID</param>
+			/// <param name="alias">Alias to remove.</param>
 			public void WorkflowAlias(int id, string alias)
 			{
-				throw new NotImplementedException();
+
+				// Resolve the WorkflowAdmin.
+				WorkflowAdmin wfAdmin = resolve.workflowById( this.Vault, id );
+
+				// Search and Destroy.
+				if (removeAlias(wfAdmin.SemanticAliases, alias))
+				{
+					// Save changes.
+					this.Vault.WorkflowOperations.UpdateWorkflowAdmin(wfAdmin);
+				}
 			}
 
+			/// <summary>
+			/// Workflow Alias Removal.
+			/// </summary>
+			/// <param name="id">Workflow ID</param>
+			/// <param name="aliases">Aliases to remove.</param>
 			public void WorkflowAliases(int id, string[] aliases)
 			{
-				throw new NotImplementedException();
+				// Pass through.
+				foreach( string alias in aliases )
+					WorkflowAlias( id, alias );
 			}
 
+			/// <summary>
+			/// Removes an alias from a PropertyDef.
+			/// </summary>
+			/// <param name="id">PropertyDef ID.</param>
+			/// <param name="alias">Alias to remove.</param>
 			public void PropertyAlias(int id, string alias)
 			{
-				throw new NotImplementedException();
+				// Resolve the PropertyDef.
+				PropertyDefAdmin pda = resolve.propertyDefById( this.Vault, id );
+
+				// Search and Destroy.
+				if (removeAlias(pda.SemanticAliases, alias))
+				{
+					// Save changes.
+					this.Vault.PropertyDefOperations.UpdatePropertyDefAdmin( pda );
+				}
 			}
+
+			/// <summary>
+			/// Removes an alias from a PropertyDef.
+			/// </summary>
+			/// <param name="id">PropertyDef ID.</param>
+			/// <param name="aliases">Alias to remove.</param>
 			public void PropertyAliases(int id, string[] aliases)
 			{
-				throw new NotImplementedException();
+				// Pass through.
+				foreach( string alias in aliases )
+					PropertyAlias( id, alias );
 			}
 
+			/// <summary>
+			/// Removes a alias from a <see cref="ObjectClass"/>.
+			/// </summary>
+			/// <param name="id">Class ID</param>
+			/// <param name="alias">Alias to remove.</param>
 			public void ClassAlias(int id, string alias)
 			{
-				throw new NotImplementedException();
+				// Resolve the ObjectClass Admin.
+				ObjectClassAdmin objClass = resolve.classById( this.Vault, id );
+
+				// Search and Destroy.
+				if (removeAlias(objClass.SemanticAliases, alias))
+				{
+					// Save changes.
+					this.Vault.ClassOperations.UpdateObjectClassAdmin( objClass );
+				}
 			}
+
+			/// <summary>
+			/// Removes a alias from a <see cref="ObjectClass"/>.
+			/// </summary>
+			/// <param name="id">Class ID</param>
+			/// <param name="aliases">Aliases to remove.</param>
 			public void ClassAliases(int id, string[] aliases)
 			{
-				throw new NotImplementedException();
+				// Pass through.
+				foreach( string alias in aliases )
+					ClassAlias( id, alias );
 			}
 
+			/// <summary>
+			/// Removes a alias from a <see cref="ObjType"/>.
+			/// </summary>
+			/// <param name="id">Object Type ID</param>
+			/// <param name="alias">Alias to remove.</param>
 			public void ObjTypeAlias(int id, string alias)
 			{
-				throw new NotImplementedException();
+				// Resolve the ObjTypeAdmin
+				ObjTypeAdmin ota = resolve.objTypeById(this.Vault, id);
+
+				// Search and Destroy.
+				if (removeAlias(ota.SemanticAliases, alias))
+				{
+					// Save changes.
+					this.Vault.ObjectTypeOperations.UpdateObjectTypeAdmin( ota );
+				}
 			}
 
+			/// <summary>
+			/// Removes a alias from a <see cref="ObjType"/>.
+			/// </summary>
+			/// <param name="id">Object Type ID</param>
+			/// <param name="aliases">Aliases to remove.</param>
 			public void ObjTypeAliases(int id, string[] aliases)
 			{
-				throw new NotImplementedException();
+				// Pass through.
+				foreach (string alias in aliases)
+					ObjTypeAlias(id, alias);
 			}
-
 		}
 
 		#endregion
