@@ -68,6 +68,19 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+    <None Include="UX\toolbox.html" />
+    <None Include="UX\appdef.xml" />
+    <None Include="UX\js\ng-toolbox.ts" />
+    <None Include="UX\js\shell_ui.js" />
+    <None Include="Resources\VaultExtensionMethodScript.vbs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="UX\" />
+    <Folder Include="UX\js\" />
+    <Folder Include="UX\css\" />
+    <Folder Include="UX\img\" />
+    <Folder Include="UX\redist\" />
+    <Folder Include="Resources\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

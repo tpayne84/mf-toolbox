@@ -1,0 +1,55 @@
+@import url('.\\jquery-ui-1.8.19\\css\\ui-lightness\\jquery-ui-1.8.19.custom.css');
+@import url('.\\jquery.timeentry-1.4.9\\jquery.timeentry.css');
+
+  html { 
+	overflow-y: scroll;
+  }
+  textarea.mf-auto-resize {
+	resize:none;
+    overflow:hidden;
+    height:100%;
+    position:absolute;
+    top:0;
+    left:0;
+  }
+  div.mf-auto-resize {
+    position:relative;
+    height:auto;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+  }
+  .ui-autocomplete {
+    max-height: 200px;
+	overflow-y: auto;
+	/* prevent horizontal scrollbar */
+	overflow-x: hidden;
+	/* add padding to account for vertical scrollbar */
+	padding-right: 20px;
+	z-index: 2000 !important;
+  }
+  
+  // Dynamic controls
+  
+  table.mf-dynamic-table {
+    table-layout: fixed;
+    width: 600px;
+	min-width: 600px;
+    max-width: 600px;
+  }
+
+ td.mf-dynamic-namefield {
+  width: 150px;
+  min-width: 150px;
+  max-width: 150px;
+  vertical-align: top;
+  padding: 0px;
+ }
+ 
+ td.mf-dynamic-controlfield {
+  width: 250px;
+  min-width: 250px;
+  max-width: 250px;
+  vertical-align: top;
+  padding: 0px;
+ }
+ 

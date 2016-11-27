@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<application xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://www.m-files.com/schemas/appdef.xsd">
+	<guid>dec5db55-90f5-4900-92b6-0f5366d59cee</guid>	
+	<name>MFToolbox</name>
+	<version>2.0</version>
+	<description>Helpful administrative operations dashboards.</description>
+	<required-mfiles-version>10.0.0.0</required-mfiles-version>
+	<modules>
+		<module environment="shellui">
+		    <file>UIControlLibrary\dashboardmanager.js</file>
+			<file>main.js</file>
+		</module>
+	</modules>
+	<dashboards>
+		<dashboard name="MFToolbox" id="toolbox">
+			<content>toolbox.html</content>
+		</dashboard>
+	</dashboards>
+</application>

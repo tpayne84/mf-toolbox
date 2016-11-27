@@ -1,0 +1,52 @@
+/* Style for metadata card. */
+
+html {
+	margin:0;
+	padding:0;
+	background-color:#c6cacf;
+	overflow-x: hidden;
+	overflow-y: auto;
+}
+
+body {
+	margin:0;
+	padding:0;
+	background-color:#c6cacf;
+	font-family:Arial, Verdana, Lucida, serif, sans;
+	line-height: 1.7em;
+	font-size: 76%;
+}
+
+a {
+	color:#cccccc;
+}
+
+a:hover {
+	color:#0000ff;
+}
+
+h2 {
+	font-family:Arial, Verdana, serif, sans;
+	font-weight:normal;
+	color:#211a21;
+	font-size:1.9em;
+	letter-spacing:-1px;
+	line-height:1.1em;
+	margin:1em 0 0 0;
+	padding:0 0 0 0;
+}
+
+#page {
+	width:600px;
+	text-align:left;
+	margin:0 auto;
+	background-color:#c6cacf;
+	padding: 20px 20px 20px 20px;
+}
+
+#content {
+	background-color: #ffffff;
+	position: relative;
+	padding: 20px 20px 20px 50px;
+	box-shadow: 0 0 15px #666666;
+}
