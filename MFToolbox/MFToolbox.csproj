@@ -30,6 +30,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Interop.MFilesAPI">
+      <HintPath>redist\M-Files\Interop.MFilesAPI.dll</HintPath>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
     <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
@@ -56,17 +60,6 @@
     <Compile Include="UI\Footer.cs" />
   </ItemGroup>
   <ItemGroup>
-    <COMReference Include="MFilesAPI">
-      <Guid>{B9C079AA-92DD-4FB4-A0E0-AA3198955B45}</Guid>
-      <VersionMajor>1</VersionMajor>
-      <VersionMinor>0</VersionMinor>
-      <Lcid>0</Lcid>
-      <WrapperTool>primary</WrapperTool>
-      <Isolated>False</Isolated>
-      <EmbedInteropTypes>True</EmbedInteropTypes>
-    </COMReference>
-  </ItemGroup>
-  <ItemGroup>
     <None Include="packages.config" />
     <None Include="UX\toolbox.html" />
     <None Include="UX\appdef.xml" />
@@ -75,12 +68,9 @@
     <None Include="Resources\VaultExtensionMethodScript.vbs" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="UX\" />
-    <Folder Include="UX\js\" />
     <Folder Include="UX\css\" />
     <Folder Include="UX\img\" />
     <Folder Include="UX\redist\" />
-    <Folder Include="Resources\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

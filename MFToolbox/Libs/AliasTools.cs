@@ -13,7 +13,7 @@ namespace MFToolbox.Libs
 		/// <summary>
 		/// Static resolution class.
 		/// </summary>
-		public static class resolve
+		public static class Resolve
 		{
 			/// <summary>
 			/// Resolves a property by its id.
@@ -112,13 +112,15 @@ namespace MFToolbox.Libs
 				/// <summary>
 				/// Spaces are substituted for underscores.
 				/// </summary>
+				// ReSharper disable once InconsistentNaming - On Purpose to demonstrate the snake_case convention.
 				Snake_Case = 2
 			}
 
 			/// <summary>
 			/// Template String used like the String.Format(); method in c#.
-			/// Replacement for {0} is the Name | Name Singular.
-			/// For ObjTypes {1} us the Name Plural.
+			/// Replacement for {0} is the type: ObjType|ObjectClass|PropertyDef|ValueList|Workflow|State|StateTransition.
+			/// Replacement for {1} is the Name | Name Singular.
+			/// For ObjTypes {2} is the Name Plural.
 			/// </summary>
 			public string AliasMask { get; set; }
 
@@ -144,6 +146,143 @@ namespace MFToolbox.Libs
 			public bool AutoNumberDuplicates { get; set; }
 
 			/// <summary>
+			/// MFToolbox Alias Defaults.
+			/// </summary>
+			public class Default
+			{
+				/// <summary>
+				/// Naming Replacement : $0 : Default: "ObjType"
+				/// </summary>
+				public const string ObjType = "ObjType";
+
+				/// <summary>
+				/// Naming Replacement : $0 : Default: "Class"
+				/// </summary>
+				public const string ObjectClass = "Class";
+
+				/// <summary>
+				/// Naming Replacement : $0 : Default: "Property"
+				/// </summary>
+				public const string PropertyDef = "Property";
+				
+				/// <summary>
+				/// Naming Replacement : $0 : Default: "Workflow"
+				/// </summary>
+				public const string Workflow = "Workflow";
+
+				/// <summary>
+				/// Naming Replacement : $0 : Default: "State"
+				/// </summary>
+				public const string State = "State";
+
+				/// <summary>
+				/// Naming Replacement : $0 : Default: "StateTransition"
+				/// </summary>
+				public const string StateTransition = "StateTransition";
+			}
+
+			/// <summary>
+			/// MFToolbox Alias Shorthand Defaults.
+			/// </summary>
+			public class Shorthand
+			{
+				/// <summary>
+				/// Naming Replacement : $0 : Default: "OT"
+				/// </summary>
+				public const string ObjType = "OT";
+
+				/// <summary>
+				/// Naming Replacement : $0 : Default: "OC"
+				/// </summary>
+				public const string ObjectClass = "OC";
+
+				/// <summary>
+				/// Naming Replacement : $0 : Default: "PD"
+				/// </summary>
+				public const string PropertyDef = "PD";
+				
+				/// <summary>
+				/// Naming Replacement : $0 : Default: "WF"
+				/// </summary>
+				public const string Workflow = "WF";
+
+				/// <summary>
+				/// Naming Replacement : $0 : Default: "WFS"
+				/// </summary>
+				public const string State = "WFS";
+
+				/// <summary>
+				/// Naming Replacement : $0 : Default: "WFST"
+				/// </summary>
+				public const string StateTransition = "WFST";
+			}
+
+			/// <summary>
+			/// When true, shorthand syntax is used.
+			/// </summary>
+			public bool UseShorthand { get; set; } = false;
+
+			/// <summary>
+			/// Naming Replacement : $0 : Default: "ObjType"
+			/// </summary>
+			public string NameObjType { get; set; } = Default.ObjType;
+
+			/// <summary>
+			/// Naming Replacement : $0 : Default: "Class"
+			/// </summary>
+			public string NameObjectClass { get; set; } = Default.ObjectClass;
+
+			/// <summary>
+			/// Naming Replacement : $0 : Default: "Property"
+			/// </summary>
+			public string NamePropertyDef { get; set; } = Default.PropertyDef;
+
+			/// <summary>
+			/// Naming Replacement : $0 : Default: "Workflow"
+			/// </summary>
+			public string NameWorkflow { get; set; } = Default.Workflow;
+
+			/// <summary>
+			/// Naming Replacement : $0 : Default: "State"
+			/// </summary>
+			public string NameState { get; set; } = Default.State;
+
+			/// <summary>
+			/// Naming Replacement : $0 : Default: "StateTransition"
+			/// </summary>
+			public string NameStateTransition { get; set; } = Default.StateTransition;
+
+			/// <summary>
+			/// Naming Replacement : $0 : Default: "OT"
+			/// </summary>
+			public string NameShorthandObjType { get; set; } = Shorthand.ObjType;
+
+			/// <summary>
+			/// Naming Replacement : $0 : Default: "OC"
+			/// </summary>
+			public string NameShorthandObjectClass { get; set; } = Shorthand.ObjectClass;
+
+			/// <summary>
+			/// Naming Replacement : $0 : Default: "PD"
+			/// </summary>
+			public string NameShorthandPropertyDef { get; set; } = Shorthand.PropertyDef;
+
+			/// <summary>
+			/// Naming Replacement : $0 : Default: "WF"
+			/// </summary>
+			public string NameShorthandWorkflow { get; set; } = Shorthand.Workflow;
+
+			/// <summary>
+			/// Naming Replacement : $0 : Default: "WFS"
+			/// </summary>
+			public string NameShorthandState { get; set; } = Shorthand.State;
+
+			/// <summary>
+			/// Naming Replacement : $0 : Default: "WFST"
+			/// </summary>
+			public string NameShorthandStateTransition { get; set; } = Shorthand.StateTransition;
+
+			/// <summary>
 			/// Self initializing constructor.
 			/// </summary>
 			/// <param name="aliasMask">Template String used like the String.Format(); method in c#.</param>
@@ -158,6 +297,10 @@ namespace MFToolbox.Libs
 				AutoNumberDuplicates = autoNumberDuplicates;
 			}
 		}
+
+		/// <summary>
+		/// Alias : Clear Operations.
+		/// </summary>
 		public class clear
 		{
 			/// <summary>
@@ -169,8 +312,14 @@ namespace MFToolbox.Libs
 				this.Vault = v;
 			}
 
+			/// <summary>
+			/// Vault reference.
+			/// </summary>
 			private Vault  Vault { get; set; }
 
+			/// <summary>
+			/// Alias Settings
+			/// </summary>
 			private Settings settings { get; set; }
 
 			public void ValueListAliases(int id)
@@ -187,7 +336,7 @@ namespace MFToolbox.Libs
 				WorkflowAdmin wfAdmin;
 
 				// Extract the state from the workflow's states collection.
-				StateTransition stateTransition = resolve.stateTransitionById( this.Vault, id, out wfAdmin );
+				StateTransition stateTransition = Resolve.stateTransitionById( this.Vault, id, out wfAdmin );
 
 				// Ensure a match was found.
 				if (stateTransition != null)
@@ -216,7 +365,7 @@ namespace MFToolbox.Libs
 				WorkflowAdmin wfAdmin;
 
 				// Resolve the state admin, by state id.
-				StateAdmin state = resolve.stateById( this.Vault, id, out wfAdmin );
+				StateAdmin state = Resolve.stateById( this.Vault, id, out wfAdmin );
 
 				// Ensure a match was found.
 				if( state != null )
@@ -242,7 +391,7 @@ namespace MFToolbox.Libs
 			public void WorkflowAlias(int id)
 			{
 				// Resolve the workflow admin.
-				WorkflowAdmin workflow = resolve.workflowById( this.Vault, id );
+				WorkflowAdmin workflow = Resolve.workflowById( this.Vault, id );
 
 				// Clear the Aliases.
 				workflow.SemanticAliases.Value = string.Empty;
@@ -258,7 +407,7 @@ namespace MFToolbox.Libs
 			public void PropertyAlias(int id)
 			{
 				// Get the PropertyDefAdmin with using the provided id.
-				PropertyDefAdmin propDefAdmin = resolve.propertyDefById( this.Vault, id );
+				PropertyDefAdmin propDefAdmin = Resolve.propertyDefById( this.Vault, id );
 				
 				// Clear the aliases.
 				propDefAdmin.SemanticAliases.Value = string.Empty;
@@ -299,6 +448,10 @@ namespace MFToolbox.Libs
 				this.Vault.ObjectTypeOperations.UpdateObjectTypeAdmin( objAdmin );
 			}
 		}
+
+		/// <summary>
+		/// Alias : Add|Append Operations.
+		/// </summary>
 		public class add
 		{
 			/// <summary>
@@ -310,7 +463,14 @@ namespace MFToolbox.Libs
 				this.settings = options;
 			}
 
+			/// <summary>
+			/// Vault Reference.
+			/// </summary>
 			private Vault Vault { get; set; }
+
+			/// <summary>
+			/// Alias Settings.
+			/// </summary>
 			private Settings settings { get; set; }
 
 			public void ValueListAlias(int id, string alias)
@@ -323,65 +483,307 @@ namespace MFToolbox.Libs
 				throw new NotImplementedException();
 			}
 
+			/// <summary>
+			/// Appends the alias to the workflow state transition object.
+			/// </summary>
+			/// <param name="alias">Alias to append.</param>
+			/// <param name="wfa">Owner <see cref="StateTransition"/></param>
+			/// <param name="transitionId">State Transition ID</param>
+			public void StateTransitionAlias(string alias, WorkflowAdmin wfa, int transitionId)
+			{
+				// Resolve the State Admin object by id, from the workflow.
+				StateAdmin state = wfa.States.Cast<StateAdmin>().SingleOrDefault(x => x.ID == transitionId);
+
+				// Add the alias only if it does not already exist.
+				if (!AliasExists(MFMetadataStructureItem.MFMetadataStructureItemState, alias))
+				{
+					// Append a delimiter if needed.
+					if (state != null)
+					{
+						// Should the delimiter be added?
+						if( !state.SemanticAliases.Value.Trim().EndsWith(";") )
+							state.SemanticAliases.Value += ';';
+
+						// Append the alias.
+						state.SemanticAliases.Value += alias;
+					}
+				}
+			}
+
+			/// <summary>
+			/// Appends the alias to the workflow state transition object.
+			/// </summary>
+			/// <param name="id">State Transition ID</param>
+			/// <param name="alias">Alias to append.</param>
 			public void StateTransitionAlias(int id, string alias)
 			{
-				throw new NotImplementedException();
+				// Resolve the workflow state's owner.
+				ValueListItem stateVli = this.Vault.ValueListItemOperations.GetValueListItemByID((int) MFBuiltInValueList.MFBuiltInValueListStates, id);
+
+				// Resolve the states owner.
+				WorkflowAdmin wfa = this.Vault.WorkflowOperations.GetWorkflowAdmin(stateVli.OwnerID);
+				StateAlias(alias, wfa, id);
 			}
 
+			/// <summary>
+			/// Appends the aliases to the workflow state transition object.
+			/// </summary>
+			/// <param name="id">State Transition ID.</param>
+			/// <param name="aliases">Aliases to add.</param>
 			public void StateTransitionAliases(int id, string[] aliases)
 			{
-				throw new NotImplementedException();
+				// Add each alias.
+				foreach (string alias in aliases)
+					StateTransitionAlias(id, alias);
 			}
 
+			/// <summary>
+			/// Appends the alias to the workflow state object.
+			/// </summary>
+			/// <param name="alias"></param>
+			/// <param name="wfa">Owner <see cref="WorkflowAdmin"/></param>
+			/// <param name="stateId">State ID</param>
+			public void StateAlias(string alias, WorkflowAdmin wfa, int stateId)
+			{
+				// Resolve the State Admin object by id, from the workflow.
+				StateAdmin state = wfa.States.Cast<StateAdmin>().SingleOrDefault(x => x.ID == stateId);
+
+				// Add the alias only if it does not already exist.
+				if (!AliasExists(MFMetadataStructureItem.MFMetadataStructureItemState, alias))
+				{
+					// Append a delimiter if needed.
+					if (state != null)
+					{
+						// Should the delimiter be added?
+						if( !state.SemanticAliases.Value.Trim().EndsWith(";") )
+							state.SemanticAliases.Value += ';';
+
+						// Append the alias.
+						state.SemanticAliases.Value += alias;
+					}
+				}
+			}
+
+			/// <summary>
+			/// Appends the alias to the workflow state object.
+			/// </summary>
+			/// <param name="id">State ID</param>
+			/// <param name="alias">Alias to append.</param>
 			public void StateAlias(int id, string alias)
 			{
-				throw new NotImplementedException();
+				// Resolve the workflow state's owner.
+				ValueListItem stateVli = this.Vault.ValueListItemOperations.GetValueListItemByID((int) MFBuiltInValueList.MFBuiltInValueListStates, id);
+
+				// Resolve the states owner.
+				WorkflowAdmin wfa = this.Vault.WorkflowOperations.GetWorkflowAdmin(stateVli.OwnerID);
+				StateAlias(alias, wfa, id);
 			}
 
+			/// <summary>
+			/// Appends the aliases to the workflow state object.
+			/// </summary>
+			/// <param name="id">State ID.</param>
+			/// <param name="aliases">Aliases to add.</param>
 			public void StateAliases(int id, string[] aliases)
 			{
-				throw new NotImplementedException();
+				// Add each alias.
+				foreach (string alias in aliases)
+					StateAlias(id, alias);
 			}
 
+			/// <summary>
+			/// Appends the alias to the workflow object.
+			/// </summary>
+			/// <param name="alias">Alias to append.</param>
+			/// <param name="wfa"><see cref="WorkflowAdmin"/></param>
+			public void WorkflowAlias(string alias, WorkflowAdmin wfa)
+			{
+				// Add the alias only if it does not already exist.
+				if (!AliasExists(MFMetadataStructureItem.MFMetadataStructureItemWorkflow, alias))
+				{
+					// Append a delimiter if needed.
+					if (!wfa.SemanticAliases.Value.Trim().EndsWith(";"))
+						wfa.SemanticAliases.Value += ';';
+
+					// Append the alias.
+					wfa.SemanticAliases.Value += alias;
+				}
+			}
+
+			/// <summary>
+			/// Appends the alias to the workflow object.
+			/// </summary>
+			/// <param name="id">Workflow ID</param>
+			/// <param name="alias">Alias to append.</param>
 			public void WorkflowAlias(int id, string alias)
 			{
-				throw new NotImplementedException();
+				// Resolve the API Structure Object.
+				WorkflowAlias(alias, this.Vault.WorkflowOperations.GetWorkflowAdmin(id));
 			}
 
+			/// <summary>
+			/// Appends the alias to the workflow object.
+			/// </summary>
+			/// <param name="id">Workflow ID</param>
+			/// <param name="aliases">Aliases to append.</param>
 			public void WorkflowAliases(int id, string[] aliases)
 			{
-				throw new NotImplementedException();
+				// Resolve the API Structure Object.
+				WorkflowAdmin wfa = this.Vault.WorkflowOperations.GetWorkflowAdmin(id);
+
+				// Add each alias.
+				foreach (string alias in aliases)
+					WorkflowAlias(alias, wfa);
 			}
 
-			public void PropertyAlias(int id, string alias)
+			/// <summary>
+			/// Appends the alias to the object class.
+			/// </summary>
+			/// <param name="alias">Alias to append.</param>
+			/// <param name="propertyDefAdmin"><see cref="PropertyDefAdmin"/></param>
+			public void PropertyAlias(string alias, PropertyDefAdmin propertyDefAdmin )
 			{
-				throw new NotImplementedException();
+				// Add the alias only if it does not already exist.
+				if (!AliasExists(MFMetadataStructureItem.MFMetadataStructureItemPropertyDef, alias))
+				{
+					// Append a delimiter if needed.
+					if (!propertyDefAdmin.SemanticAliases.Value.Trim().EndsWith(";"))
+						propertyDefAdmin.SemanticAliases.Value += ';';
+
+					// Append the alias.
+					propertyDefAdmin.SemanticAliases.Value += alias;
+				}
 			}
+
+			/// <summary>
+			/// Appends the alias to the PropertyDef.
+			/// </summary>
+			/// <param name="id">Property ID</param>
+			/// <param name="aliases">Alias to append.</param>
 			public void PropertyAliases(int id, string[] aliases)
 			{
-				throw new NotImplementedException();
+				// Resolve the API Structure Object.
+				PropertyDefAdmin pda = this.Vault.PropertyDefOperations.GetPropertyDefAdmin(id);
+
+				// Add each alias.
+				foreach (string alias in aliases)
+					PropertyAlias(alias, pda);
 			}
 
+			/// <summary>
+			/// Appends the alias to the object class.
+			/// </summary>
+			/// <param name="oca"><see cref="ObjectClass"/></param>
+			/// <param name="alias">Alias to append.</param>
+			public void ClassAlias(string alias, ObjectClassAdmin oca)
+			{
+				// Add the alias only if it does not already exist.
+				if (!AliasExists(MFMetadataStructureItem.MFMetadataStructureItemClass, alias))
+				{
+					// Append a delimiter if needed.
+					if (!oca.SemanticAliases.Value.Trim().EndsWith(";"))
+						oca.SemanticAliases.Value += ';';
+
+					// Append the alias.
+					oca.SemanticAliases.Value += alias;
+				}
+			}
+
+			/// <summary>
+			/// Appends the alias to the object class with the provided id.
+			/// </summary>
+			/// <param name="id">Class ID</param>
+			/// <param name="alias">Alias to append.</param>
 			public void ClassAlias(int id, string alias)
 			{
-				throw new NotImplementedException();
+				// Resolve the API Structure Object.
+				ObjectClassAdmin objectClass = this.Vault.ClassOperations.GetObjectClassAdmin(id);
+				ClassAlias(alias, objectClass);
 			}
+
+			/// <summary>
+			/// Appends an object alias to the object class.
+			/// </summary>
+			/// <param name="id">Class ID</param>
+			/// <param name="aliases">Aliases to append.</param>
 			public void ClassAliases(int id, string[] aliases)
 			{
-				throw new NotImplementedException();
+				// Resolve the API Structure Object.
+				ObjectClassAdmin objectClass = this.Vault.ClassOperations.GetObjectClassAdmin(id);
+
+				// Add each alias.
+				foreach (string alias in aliases)
+					ClassAlias(alias, objectClass);
 			}
 
-			public void ObjTypeAlias(int id, string alias)
+			/// <summary>
+			/// Appends an object alias to the object type.
+			/// </summary>
+			/// <param name="alias">Alias to append.</param>
+			/// <param name="objTypeAdmin"><see cref="ObjTypeAdmin"/></param>
+			public void ObjTypeAlias(string alias, ObjTypeAdmin objTypeAdmin)
 			{
-				throw new NotImplementedException();
+
+				// Add the alias only if it does not already exist.
+				if (!AliasExists(MFMetadataStructureItem.MFMetadataStructureItemObjectType, alias))
+				{
+					// Append a delimiter if needed.
+					if (!objTypeAdmin.SemanticAliases.Value.Trim().EndsWith(";"))
+						objTypeAdmin.SemanticAliases.Value += ';';
+
+					// Append the alias.
+					objTypeAdmin.SemanticAliases.Value += alias;
+				}
 			}
 
+			/// <summary>
+			/// Appends the given aliases to the object type.
+			/// </summary>
+			/// <param name="id">Object ID</param>
+			/// <param name="aliases">Aliases to append</param>
 			public void ObjTypeAliases(int id, string[] aliases)
 			{
-				throw new NotImplementedException();
+				// Resolve the API Structure Object.
+				ObjTypeAdmin objTypeAdmin = this.Vault.ObjectTypeOperations.GetObjectTypeAdmin(id);
+
+				// Add each alias.
+				foreach (string alias in aliases)
+					ObjTypeAlias(alias, objTypeAdmin);
 			}
 
+			/// <summary>
+			/// Auto aliases an object type, by id.
+			/// </summary>
+			/// <param name="id"></param>
+			public void AutoAliasObjType(int id)
+			{
+				// Resolve the API Structure Object.
+				this.AutoAliasObjType(this.Vault.ObjectTypeOperations.GetObjectTypeAdmin(id));
+			}
+
+			/// <summary>
+			/// Auto aliases an object type, by id.
+			/// </summary>
+			/// <param name="objTypeAdmin"><see cref="ObjTypeAdmin"/></param>
+			public void AutoAliasObjType(ObjTypeAdmin objTypeAdmin )
+			{
+				string alias = FormatAlias(objTypeAdmin, this.settings);
+				ObjTypeAlias(alias, objTypeAdmin);
+			}
+
+			/// <summary>
+			/// Auto aliases all object types.
+			/// </summary>
+			public void AutoAliasObjTypes()
+			{
+				foreach (ObjTypeAdmin ota in this.Vault.ObjectTypeOperations.GetObjectTypesAdmin())
+					AutoAliasObjType(ota);
+			}
 		}
+
+		/// <summary>
+		/// Alias : Remove Operations.
+		/// </summary>
 		public class remove
 		{
 			/// <summary>
@@ -457,7 +859,7 @@ namespace MFToolbox.Libs
 			public void StateTransitionAlias(int id, string alias)
 			{
 				WorkflowAdmin wfAdmin;
-				StateTransition stateTransition = resolve.stateTransitionById( this.Vault, id, out wfAdmin );
+				StateTransition stateTransition = Resolve.stateTransitionById( this.Vault, id, out wfAdmin );
 
 				// Search and Destroy.
 				if( removeAlias(stateTransition.SemanticAliases, alias) )
@@ -487,7 +889,7 @@ namespace MFToolbox.Libs
 			public void StateAlias(int id, string alias)
 			{
 				WorkflowAdmin wfAdmin;
-				StateAdmin state = resolve.stateById( this.Vault, id, out wfAdmin );
+				StateAdmin state = Resolve.stateById( this.Vault, id, out wfAdmin );
 
 				// Search and Destroy.
 				if (removeAlias(state.SemanticAliases, alias))
@@ -518,7 +920,7 @@ namespace MFToolbox.Libs
 			{
 
 				// Resolve the WorkflowAdmin.
-				WorkflowAdmin wfAdmin = resolve.workflowById( this.Vault, id );
+				WorkflowAdmin wfAdmin = Resolve.workflowById( this.Vault, id );
 
 				// Search and Destroy.
 				if (removeAlias(wfAdmin.SemanticAliases, alias))
@@ -548,7 +950,7 @@ namespace MFToolbox.Libs
 			public void PropertyAlias(int id, string alias)
 			{
 				// Resolve the PropertyDef.
-				PropertyDefAdmin pda = resolve.propertyDefById( this.Vault, id );
+				PropertyDefAdmin pda = Resolve.propertyDefById( this.Vault, id );
 
 				// Search and Destroy.
 				if (removeAlias(pda.SemanticAliases, alias))
@@ -578,7 +980,7 @@ namespace MFToolbox.Libs
 			public void ClassAlias(int id, string alias)
 			{
 				// Resolve the ObjectClass Admin.
-				ObjectClassAdmin objClass = resolve.classById( this.Vault, id );
+				ObjectClassAdmin objClass = Resolve.classById( this.Vault, id );
 
 				// Search and Destroy.
 				if (removeAlias(objClass.SemanticAliases, alias))
@@ -608,7 +1010,7 @@ namespace MFToolbox.Libs
 			public void ObjTypeAlias(int id, string alias)
 			{
 				// Resolve the ObjTypeAdmin
-				ObjTypeAdmin ota = resolve.objTypeById(this.Vault, id);
+				ObjTypeAdmin ota = Resolve.objTypeById(this.Vault, id);
 
 				// Search and Destroy.
 				if (removeAlias(ota.SemanticAliases, alias))
@@ -636,23 +1038,12 @@ namespace MFToolbox.Libs
 		#region Private Methods
 
 		/// <summary>
-		/// Given a structure item name and the generated alias, this method will determine if the alias is custom.
-		/// </summary>
-		/// <param name="name">Structure Item Name</param>
-		/// <param name="alias">Generated Alias</param>
-		/// <returns>True if the alias is a custom ( non-auto-generated ) alias.</returns>
-		private bool isAliasCustom( string name, string alias )
-		{
-			throw new NotImplementedException();
-		}
-
-		/// <summary>
 		/// Determines if an alias already exists in the vault.
 		/// </summary>
 		/// <param name="type"><see cref="MFMetadataStructureItem"/> Type to check.</param>
 		/// <param name="alias">Alias to look for.</param>
 		/// <returns>True when the alias already exists in a vault.</returns>
-		private bool aliasExists( MFMetadataStructureItem type, string alias )
+		internal static bool AliasExists( MFMetadataStructureItem type, string alias )
 		{
 			throw new NotImplementedException();
 		}
@@ -660,11 +1051,70 @@ namespace MFToolbox.Libs
 		/// <summary>
 		/// Formats an alias using the given settings.
 		/// </summary>
-		/// <param name="name"></param>
+		/// <param name="apiObj">Boxed API Admin Object</param>
+		/// <param name="settings">Alias settings.</param>
 		/// <returns>Alias string formatted according to the specified settings.</returns>
-		private string formatAlias( string name )
+		internal static string FormatAlias(object apiObj, AliasTools.Settings settings )
 		{
-			throw new NotImplementedException();
+			// {0} = TYPE
+			string zero = null;
+
+			// {1} = NAME
+			string one = null;
+
+			// {2} = NAME PLURAL
+			string two = string.Empty;
+
+			// Set the placeholder values needed for the string formatting.
+			if ( apiObj is ObjTypeAdmin )
+			{
+				one = (apiObj as ObjTypeAdmin).ObjectType.NameSingular;
+				two = (apiObj as ObjTypeAdmin).ObjectType.NamePlural;
+				zero = settings.UseShorthand
+					? settings.NameShorthandObjType
+					: settings.NameObjType;
+			}
+			else if ( apiObj is ObjectClassAdmin )
+			{
+				one = (apiObj as ObjectClassAdmin).Name;
+				zero = settings.UseShorthand
+					? settings.NameShorthandObjectClass
+					: settings.NameObjectClass;
+			}
+			else if ( apiObj is PropertyDefAdmin )
+			{
+				one = (apiObj as PropertyDefAdmin).PropertyDef.Name;
+				zero = settings.UseShorthand
+					? settings.NameShorthandPropertyDef
+					: settings.NamePropertyDef;
+			}
+			else if ( apiObj is WorkflowAdmin )
+			{
+				one = (apiObj as WorkflowAdmin).Workflow.Name;
+				zero = settings.UseShorthand
+					? settings.NameShorthandWorkflow
+					: settings.NameWorkflow;
+			}
+			else if ( apiObj is StateAdmin )
+			{
+				one = (apiObj as StateAdmin).Name;
+				zero = settings.UseShorthand
+					? settings.NameShorthandState
+					: settings.NameState;
+			}
+			else if ( apiObj is StateTransition )
+			{
+				one = (apiObj as StateTransition).Name;
+				zero = settings.UseShorthand
+					? settings.NameShorthandStateTransition
+					: settings.NameStateTransition;
+			}
+
+			// Format the alias, using the mask and the placeholders.
+			string formattedAlias = string.Format(settings.AliasMask, zero, one, two);
+
+			// Return the formatted alias.
+			return formattedAlias;
 		}
 
 		#endregion
@@ -684,8 +1134,16 @@ namespace MFToolbox.Libs
 		/// </summary>
 		public clear Clear { get; set; }
 
+
+		/// <summary>
+		/// Vault Reference.
+		/// </summary>
 		public Vault Vault { get; set; }
 
+
+		/// <summary>
+		/// Alias Settings.
+		/// </summary>
 		private Settings settings { get; set; }
 
 		/// <summary>
