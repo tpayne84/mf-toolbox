@@ -64,116 +64,80 @@ namespace MFToolboxTests
 
 		#region Format Tests
 
-		[Test]
-		public void Test_001_DefaultObjTypeFormating()
+		public void FormatAlias(dynamic apiObj, string expectedAlias, bool useShorthand = false)
 		{
-			ObjTypeAdmin objType = this.V.ObjectTypeOperations.GetObjectTypeAdmin((int)MFBuiltInObjectType.MFBuiltInObjectTypeDocument);
-			Assert.AreEqual("ObjType.Document", this.Settings.FormatAlias(objType));
+			if (useShorthand)
+				this.Settings.UseShorthand = true;
+
+			Assert.AreEqual(expectedAlias, this.Settings.FormatAlias(apiObj));
 		}
 
-		[Test]
-		public void Test_002_ShorthandObjTypeFormating()
+		public void FormatAlias(dynamic workflowApiObj, dynamic apiObj, string expectedAlias, bool useShorthand = false)
 		{
-			this.Settings.UseShorthand = true;
-			ObjTypeAdmin objType = this.V.ObjectTypeOperations.GetObjectTypeAdmin((int)MFBuiltInObjectType.MFBuiltInObjectTypeDocument);
-			Assert.AreEqual("OT.Document", this.Settings.FormatAlias(objType));
+			if (useShorthand)
+				this.Settings.UseShorthand = true;
+
+			Assert.AreEqual(expectedAlias, this.Settings.FormatAlias(apiObj, workflowApiObj));
 		}
 
-		[Test]
-		public void Test_003_DefaultObjTypeFormatingPlural()
+
+		[TestCase("ObjType.Document", 0,false)]
+		[TestCase("OT.Document", 0, true)]
+		public void Test_001_ObjTypeFormating(string expectedAlias, int id, bool useShorthand = false)
+		{
+			ObjTypeAdmin objType = this.V.ObjectTypeOperations.GetObjectTypeAdmin(id);
+			FormatAlias(objType, expectedAlias, useShorthand);
+		}
+
+		[TestCase("ObjType.Documents", 0,false)]
+		[TestCase("OT.Documents", 0, true)]
+		public void Test_002_ObjTypeFormatingPlural(string expectedAlias, int id, bool useShorthand = false)
 		{
 			this.Settings.AliasMask = "{0}.{2}";
-			this.Settings.UseShorthand = false;
-			ObjTypeAdmin objType = this.V.ObjectTypeOperations.GetObjectTypeAdmin((int)MFBuiltInObjectType.MFBuiltInObjectTypeDocument);
-			Assert.AreEqual("ObjType.Documents", this.Settings.FormatAlias(objType));
+			ObjTypeAdmin objType = this.V.ObjectTypeOperations.GetObjectTypeAdmin(id);
+			FormatAlias(objType, expectedAlias, useShorthand);
 		}
 
-		[Test]
-		public void Test_004_ShorthandObjTypeFormatingPlural()
+		[TestCase("Class.Unclassified_Document", 0, false)]
+		[TestCase("OC.Unclassified_Document", 0, true)]
+		public void Test_003_ClassFormating(string expectedAlias, int id, bool useShorthand = false)
 		{
-			this.Settings.AliasMask = "{0}.{2}";
-			this.Settings.UseShorthand = true;
-			ObjTypeAdmin objType = this.V.ObjectTypeOperations.GetObjectTypeAdmin((int)MFBuiltInObjectType.MFBuiltInObjectTypeDocument);
-			Assert.AreEqual("OT.Documents", this.Settings.FormatAlias(objType));
+			ObjectClassAdmin objClass = this.V.ClassOperations.GetObjectClassAdmin(id);
+			FormatAlias(objClass, expectedAlias, useShorthand);
 		}
 
-		[Test]
-		public void Test_005_DefaultClassFormating()
+		[TestCase("Property.Name_Or_Title", 0, false)]
+		[TestCase("PD.Name_Or_Title", 0, true)]
+		public void Test_004_DefaultPropertyDefFormating(string expectedAlias, int id, bool useShorthand = false)
 		{
-			ObjectClassAdmin objClass = this.V.ClassOperations.GetObjectClassAdmin(0);
-			Assert.AreEqual("Class.Unclassified_Document", this.Settings.FormatAlias(objClass));
+			PropertyDefAdmin propDef = this.V.PropertyDefOperations.GetPropertyDefAdmin(id);
+			FormatAlias(propDef, expectedAlias, useShorthand);
 		}
 
-		[Test]
-		public void Test_006_ShorthandClassFormating()
+		[TestCase("Workflow.Reviewing_Drawings", 106, false)]
+		[TestCase("WF.Reviewing_Drawings", 106, true)]
+		public void Test_005_DefaultWorkflowFormating(string expectedAlias, int id, bool useShorthand = false)
 		{
-			this.Settings.UseShorthand = true;
-			ObjectClassAdmin objClass = this.V.ClassOperations.GetObjectClassAdmin(0);
-			Assert.AreEqual("OC.Unclassified_Document", this.Settings.FormatAlias(objClass));
+			WorkflowAdmin wfAdmin = this.V.WorkflowOperations.GetWorkflowAdmin(id);
+			FormatAlias(wfAdmin, expectedAlias, useShorthand);
 		}
 
-		[Test]
-		public void Test_007_DefaultPropertyDefFormating()
+		[TestCase("Workflow.Reviewing_Drawings.Listed_For_Approval", 106, 135, false)]
+		[TestCase("WF.Reviewing_Drawings.Listed_For_Approval", 106, 135, true)]
+		public void Test_006_WorkflowStateFormating(string expectedAlias, int workflowId, int stateId, bool useShorthand = false)
 		{
-			PropertyDefAdmin propDef = this.V.PropertyDefOperations.GetPropertyDefAdmin(0);
-			Assert.AreEqual("Property.Name_Or_Title", this.Settings.FormatAlias(propDef));
+			WorkflowAdmin wfAdmin = this.V.WorkflowOperations.GetWorkflowAdmin(workflowId);
+			StateAdmin stateAdmin = wfAdmin.States.Cast<StateAdmin>().Single(s => s.ID == stateId);
+			FormatAlias(wfAdmin, stateAdmin, expectedAlias, useShorthand);
 		}
 
-		[Test]
-		public void Test_008_ShorthandPropertyDefFormating()
+		[TestCase("Workflow.Reviewing_Drawings.Listed_For_Approval=>Approved", 106, 2, false)]
+		[TestCase("WF.Reviewing_Drawings.Listed_For_Approval=>Approved", 106, 2, true)]
+		public void Test_07_DefaultWorkflowStateTransitionFormating(string expectedAlias, int workflowId, int transitionId, bool useShorthand = false)
 		{
-			this.Settings.UseShorthand = true;
-			PropertyDefAdmin propDef = this.V.PropertyDefOperations.GetPropertyDefAdmin(0);
-			Assert.AreEqual("PD.Name_Or_Title", this.Settings.FormatAlias(propDef));
-		}
-
-		[Test]
-		public void Test_009_DefaultWorkflowFormating()
-		{
-			WorkflowAdmin wfAdmin = this.V.WorkflowOperations.GetWorkflowAdmin(106);
-			Assert.AreEqual("Workflow.Reviewing_Drawings", this.Settings.FormatAlias(wfAdmin));
-		}
-
-		[Test]
-		public void Test_010_ShorthandWorkflowFormating()
-		{
-			this.Settings.UseShorthand = true;
-			WorkflowAdmin wfAdmin = this.V.WorkflowOperations.GetWorkflowAdmin(106);
-			Assert.AreEqual("WF.Reviewing_Drawings", this.Settings.FormatAlias(wfAdmin));
-		}
-
-		[Test]
-		public void Test_011_DefaultWorkflowStateFormating()
-		{
-			WorkflowAdmin wfAdmin = this.V.WorkflowOperations.GetWorkflowAdmin(106);
-			StateAdmin stateAdmin = wfAdmin.States.Cast<StateAdmin>().Single(s => s.ID == 135);
-			Assert.AreEqual("Workflow.Reviewing_Drawings.Listed_For_Approval", this.Settings.FormatAlias(stateAdmin, wfAdmin));
-		}
-
-		[Test]
-		public void Test_012_ShorthandWorkflowStateFormating()
-		{
-			this.Settings.UseShorthand = true;
-			WorkflowAdmin wfAdmin = this.V.WorkflowOperations.GetWorkflowAdmin(106);
-			StateAdmin stateAdmin = wfAdmin.States.Cast<StateAdmin>().Single(s => s.ID == 135);
-			Assert.AreEqual("WF.Reviewing_Drawings.Listed_For_Approval", this.Settings.FormatAlias(stateAdmin, wfAdmin));
-		}
-
-		[Test]
-		public void Test_013_DefaultWorkflowStateTransitionFormating()
-		{
-			WorkflowAdmin wfAdmin = this.V.WorkflowOperations.GetWorkflowAdmin(106);
-			StateTransition stAdmin = wfAdmin.StateTransitions.Cast<StateTransition>().Single(st => st.ID == 2);
-			Assert.AreEqual("Workflow.Reviewing_Drawings.Listed_For_Approval=>Approved", this.Settings.FormatAlias(stAdmin, wfAdmin));
-		}
-
-		[Test]
-		public void Test_014_ShorthandWorkflowStateTransitionFormating()
-		{
-			this.Settings.UseShorthand = true;
-			WorkflowAdmin wfAdmin = this.V.WorkflowOperations.GetWorkflowAdmin(106);
-			StateTransition stAdmin = wfAdmin.StateTransitions.Cast<StateTransition>().Single(st => st.ID == 2);
-			Assert.AreEqual("WF.Reviewing_Drawings.Listed_For_Approval=>Approved", this.Settings.FormatAlias(stAdmin, wfAdmin));
+			WorkflowAdmin wfAdmin = this.V.WorkflowOperations.GetWorkflowAdmin(workflowId);
+			StateTransition stAdmin = wfAdmin.StateTransitions.Cast<StateTransition>().Single(st => st.ID == transitionId);
+			FormatAlias(wfAdmin, stAdmin, expectedAlias, useShorthand);
 		}
 
 		#endregion
