@@ -15,7 +15,7 @@ namespace MFToolbox.Core
 		/// <param name="v"><see cref="Vault"/></param>
 		/// <param name="id">Property ID</param>
 		/// <returns><see cref="PropertyDefAdmin"/></returns>
-		public static PropertyDefAdmin PropertyDefById(Vault v, int id) => v.PropertyDefOperations.GetPropertyDefAdmin(id);
+		public static PropertyDefAdmin PropertyDefById(this Vault v, int id) => v.PropertyDefOperations.GetPropertyDefAdmin(id);
 
 		/// <summary>
 		/// Resolves a workflow by id.
@@ -23,7 +23,7 @@ namespace MFToolbox.Core
 		/// <param name="v"><see cref="Vault"/></param>
 		/// <param name="id">Workflow ID</param>
 		/// <returns><see cref="WorkflowAdmin"/></returns>
-		public static WorkflowAdmin WorkflowById(Vault v, int id)
+		public static WorkflowAdmin WorkflowById(this Vault v, int id)
 		{
 			// Get all workflows.
 			List<WorkflowAdmin> workflows = v.WorkflowOperations.GetWorkflowsAdmin().Cast<WorkflowAdmin>().ToList();
@@ -39,7 +39,7 @@ namespace MFToolbox.Core
 		/// <param name="id">State ID</param>
 		/// <param name="wfAdmin">Resolved <see cref="StateAdmin"/>'s owner <see cref="WorkflowAdmin"/></param>
 		/// <returns><see cref="StateAdmin"/>State with the passed id.</returns>
-		public static StateAdmin StateById(Vault v, int id, out WorkflowAdmin wfAdmin)
+		public static StateAdmin StateById(this Vault v, int id, out WorkflowAdmin wfAdmin)
 		{
 			// Get all workflows.
 			List<WorkflowAdmin> workflows = v.WorkflowOperations.GetWorkflowsAdmin().Cast<WorkflowAdmin>().ToList();
@@ -58,7 +58,7 @@ namespace MFToolbox.Core
 		/// <param name="id">State Transition ID</param>
 		/// <param name="wfAdmin">Resolved <see cref="StateTransition"/>'s owner <see cref="WorkflowAdmin"/></param>
 		/// <returns><see cref="StateAdmin"/>State with the passed id.</returns>
-		public static StateTransition StateTransitionById(Vault v, int id, out WorkflowAdmin wfAdmin)
+		public static StateTransition StateTransitionById(this Vault v, int id, out WorkflowAdmin wfAdmin)
 		{
 			// Get all workflows.
 			List<WorkflowAdmin> workflows = v.WorkflowOperations.GetWorkflowsAdmin().Cast<WorkflowAdmin>().ToList();
@@ -76,8 +76,14 @@ namespace MFToolbox.Core
 		/// <param name="v"><see cref="Vault"/></param>
 		/// <param name="id">Class ID</param>
 		/// <returns><see cref="ObjectClassAdmin"/></returns>
-		public static ObjectClassAdmin ClassById(Vault v, int id) => v.ClassOperations.GetAllObjectClassesAdmin().Cast<ObjectClassAdmin>().FirstOrDefault(oc => oc.ID == id);
+		public static ObjectClassAdmin ClassById(this Vault v, int id) => v.ClassOperations.GetAllObjectClassesAdmin().Cast<ObjectClassAdmin>().FirstOrDefault(oc => oc.ID == id);
 
-		public static ObjTypeAdmin ObjTypeById(Vault v, int id) => v.ObjectTypeOperations.GetObjectTypesAdmin().Cast<ObjTypeAdmin>().FirstOrDefault(x => x.ObjectType.ID == id);
+		/// <summary>
+		/// Resolves an <see cref="ObjTypeAdmin"/> by ID.
+		/// </summary>
+		/// <param name="v"><see cref="Vault"/></param>
+		/// <param name="id">ObjType ID</param>
+		/// <returns><see cref="ObjTypeAdmin"/></returns>
+		public static ObjTypeAdmin ObjTypeById(this Vault v, int id) => v.ObjectTypeOperations.GetObjectTypesAdmin().Cast<ObjTypeAdmin>().FirstOrDefault(x => x.ObjectType.ID == id);
 	}
 }

@@ -384,7 +384,7 @@ namespace MFToolbox.Libs
 				WorkflowAdmin wfAdmin;
 
 				// Extract the state from the workflow's states collection.
-				StateTransition stateTransition = Resolve.StateTransitionById( this.Vault, id, out wfAdmin );
+				StateTransition stateTransition = this.Vault.StateTransitionById(id, out wfAdmin );
 
 				// Ensure a match was found.
 				if (stateTransition != null)
@@ -413,7 +413,7 @@ namespace MFToolbox.Libs
 				WorkflowAdmin wfAdmin;
 
 				// Resolve the state admin, by state id.
-				StateAdmin state = Resolve.StateById( this.Vault, id, out wfAdmin );
+				StateAdmin state = this.Vault.StateById(id, out wfAdmin );
 
 				// Ensure a match was found.
 				if( state != null )
@@ -439,7 +439,7 @@ namespace MFToolbox.Libs
 			public void WorkflowAlias(int id)
 			{
 				// Resolve the workflow admin.
-				WorkflowAdmin workflow = Resolve.WorkflowById( this.Vault, id );
+				WorkflowAdmin workflow = this.Vault.WorkflowById(id );
 
 				// Clear the Aliases.
 				workflow.SemanticAliases.Value = string.Empty;
@@ -468,7 +468,7 @@ namespace MFToolbox.Libs
 			public void PropertyAlias(int id)
 			{
 				// Get the PropertyDefAdmin with using the provided id.
-				PropertyDefAdmin propDefAdmin = Resolve.PropertyDefById( this.Vault, id );
+				PropertyDefAdmin propDefAdmin = this.Vault.PropertyDefById(id );
 				PropertyAlias(propDefAdmin);
 			}
 
@@ -1006,7 +1006,7 @@ namespace MFToolbox.Libs
 			public void StateTransitionAlias(int id, string alias)
 			{
 				WorkflowAdmin wfAdmin;
-				StateTransition stateTransition = Resolve.StateTransitionById( this.Vault, id, out wfAdmin );
+				StateTransition stateTransition = this.Vault.StateTransitionById(id, out wfAdmin );
 
 				// Search and Destroy.
 				if( removeAlias(stateTransition.SemanticAliases, alias) )
@@ -1036,7 +1036,7 @@ namespace MFToolbox.Libs
 			public void StateAlias(int id, string alias)
 			{
 				WorkflowAdmin wfAdmin;
-				StateAdmin state = Resolve.StateById( this.Vault, id, out wfAdmin );
+				StateAdmin state = this.Vault.StateById(id, out wfAdmin );
 
 				// Search and Destroy.
 				if (removeAlias(state.SemanticAliases, alias))
@@ -1067,7 +1067,7 @@ namespace MFToolbox.Libs
 			{
 
 				// Resolve the WorkflowAdmin.
-				WorkflowAdmin wfAdmin = Resolve.WorkflowById( this.Vault, id );
+				WorkflowAdmin wfAdmin = this.Vault.WorkflowById(id );
 
 				// Search and Destroy.
 				if (removeAlias(wfAdmin.SemanticAliases, alias))
@@ -1112,7 +1112,7 @@ namespace MFToolbox.Libs
 			public void PropertyAlias(int id, string alias)
 			{
 				// Resolve the PropertyDef.
-				PropertyDefAdmin pda = Resolve.PropertyDefById( this.Vault, id );
+				PropertyDefAdmin pda = this.Vault.PropertyDefById(id );
 				PropertyAlias(alias, pda);
 			}
 
@@ -1151,7 +1151,7 @@ namespace MFToolbox.Libs
 			public void ClassAlias(int id, string alias)
 			{
 				// Resolve the ObjectClass Admin.
-				ObjectClassAdmin objClass = Resolve.ClassById( this.Vault, id );
+				ObjectClassAdmin objClass = this.Vault.ClassById(id );
 				ClassAlias(alias, objClass);
 			}
 
@@ -1190,7 +1190,7 @@ namespace MFToolbox.Libs
 			public void ObjTypeAlias(int id, string alias)
 			{
 				// Resolve the ObjTypeAdmin
-				ObjTypeAdmin ota = Resolve.ObjTypeById(this.Vault, id);
+				ObjTypeAdmin ota = this.Vault.ObjTypeById(id);
 				ObjTypeAlias(alias, ota);
 			}
 
