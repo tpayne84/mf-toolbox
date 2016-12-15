@@ -64,6 +64,12 @@ namespace MFToolboxTests
 
 		#region Format Tests
 
+		/// <summary>
+		/// Test Helper : Tests alias formatting.
+		/// </summary>
+		/// <param name="apiObj">API Object to test.</param>
+		/// <param name="expectedAlias">Expected result.</param>
+		/// <param name="useShorthand">Should shorthand be used?</param>
 		public void FormatAlias(dynamic apiObj, string expectedAlias, bool useShorthand = false)
 		{
 			if (useShorthand)
@@ -72,6 +78,13 @@ namespace MFToolboxTests
 			Assert.AreEqual(expectedAlias, this.Settings.FormatAlias(apiObj));
 		}
 
+		/// <summary>
+		/// Test Helper : Workflow State / Transition : Tests alias formatting.
+		/// </summary>
+		/// <param name="workflowApiObj">Owner Workflow API Object</param>
+		/// <param name="apiObj">API Object to test.</param>
+		/// <param name="expectedAlias">Expected result.</param>
+		/// <param name="useShorthand">Should shorthand be used?</param>
 		public void FormatAlias(dynamic workflowApiObj, dynamic apiObj, string expectedAlias, bool useShorthand = false)
 		{
 			if (useShorthand)
