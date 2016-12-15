@@ -96,7 +96,7 @@ namespace MFToolboxTests
 
 		[TestCase("ObjType.Document", 0,false)]
 		[TestCase("OT.Document", 0, true)]
-		public void Test_001_ObjTypeFormating(string expectedAlias, int id, bool useShorthand = false)
+		public void Test_000_ObjTypeFormating(string expectedAlias, int id, bool useShorthand = false)
 		{
 			ObjTypeAdmin objType = this.V.ObjectTypeOperations.GetObjectTypeAdmin(id);
 			FormatAlias(objType, expectedAlias, useShorthand);
@@ -104,7 +104,7 @@ namespace MFToolboxTests
 
 		[TestCase("ObjType.Documents", 0,false)]
 		[TestCase("OT.Documents", 0, true)]
-		public void Test_002_ObjTypeFormatingPlural(string expectedAlias, int id, bool useShorthand = false)
+		public void Test_001_ObjTypeFormatingPlural(string expectedAlias, int id, bool useShorthand = false)
 		{
 			this.Settings.AliasMask = "{0}.{2}";
 			ObjTypeAdmin objType = this.V.ObjectTypeOperations.GetObjectTypeAdmin(id);
@@ -113,7 +113,7 @@ namespace MFToolboxTests
 
 		[TestCase("Class.Unclassified_Document", 0, false)]
 		[TestCase("OC.Unclassified_Document", 0, true)]
-		public void Test_003_ClassFormating(string expectedAlias, int id, bool useShorthand = false)
+		public void Test_002_ClassFormating(string expectedAlias, int id, bool useShorthand = false)
 		{
 			ObjectClassAdmin objClass = this.V.ClassOperations.GetObjectClassAdmin(id);
 			FormatAlias(objClass, expectedAlias, useShorthand);
@@ -121,7 +121,7 @@ namespace MFToolboxTests
 
 		[TestCase("Property.Name_Or_Title", 0, false)]
 		[TestCase("PD.Name_Or_Title", 0, true)]
-		public void Test_004_DefaultPropertyDefFormating(string expectedAlias, int id, bool useShorthand = false)
+		public void Test_003_DefaultPropertyDefFormating(string expectedAlias, int id, bool useShorthand = false)
 		{
 			PropertyDefAdmin propDef = this.V.PropertyDefOperations.GetPropertyDefAdmin(id);
 			FormatAlias(propDef, expectedAlias, useShorthand);
@@ -129,7 +129,7 @@ namespace MFToolboxTests
 
 		[TestCase("Workflow.Reviewing_Drawings", 106, false)]
 		[TestCase("WF.Reviewing_Drawings", 106, true)]
-		public void Test_005_DefaultWorkflowFormating(string expectedAlias, int id, bool useShorthand = false)
+		public void Test_004_DefaultWorkflowFormating(string expectedAlias, int id, bool useShorthand = false)
 		{
 			WorkflowAdmin wfAdmin = this.V.WorkflowOperations.GetWorkflowAdmin(id);
 			FormatAlias(wfAdmin, expectedAlias, useShorthand);
@@ -137,7 +137,7 @@ namespace MFToolboxTests
 
 		[TestCase("Workflow.Reviewing_Drawings.Listed_For_Approval", 106, 135, false)]
 		[TestCase("WF.Reviewing_Drawings.Listed_For_Approval", 106, 135, true)]
-		public void Test_006_WorkflowStateFormating(string expectedAlias, int workflowId, int stateId, bool useShorthand = false)
+		public void Test_005_WorkflowStateFormating(string expectedAlias, int workflowId, int stateId, bool useShorthand = false)
 		{
 			WorkflowAdmin wfAdmin = this.V.WorkflowOperations.GetWorkflowAdmin(workflowId);
 			StateAdmin stateAdmin = wfAdmin.States.Cast<StateAdmin>().Single(s => s.ID == stateId);
@@ -146,7 +146,7 @@ namespace MFToolboxTests
 
 		[TestCase("Workflow.Reviewing_Drawings.Listed_For_Approval=>Approved", 106, 2, false)]
 		[TestCase("WF.Reviewing_Drawings.Listed_For_Approval=>Approved", 106, 2, true)]
-		public void Test_07_DefaultWorkflowStateTransitionFormating(string expectedAlias, int workflowId, int transitionId, bool useShorthand = false)
+		public void Test_006_DefaultWorkflowStateTransitionFormating(string expectedAlias, int workflowId, int transitionId, bool useShorthand = false)
 		{
 			WorkflowAdmin wfAdmin = this.V.WorkflowOperations.GetWorkflowAdmin(workflowId);
 			StateTransition stAdmin = wfAdmin.StateTransitions.Cast<StateTransition>().Single(st => st.ID == transitionId);
@@ -273,16 +273,16 @@ namespace MFToolboxTests
 
 		[TestCase(0, false)]
 		[TestCase(0, true)]
-		public void Test_015_AddObjTypeAlias(int id, bool useShorthand) => AddObjTypeAlias(id, useShorthand);
+		public void Test_007_AddObjTypeAlias(int id, bool useShorthand) => AddObjTypeAlias(id, useShorthand);
 
 		[TestCase(0, false)]
 		[TestCase(0, true)]
-		public void Test_016_AddDefaultClassAlias(int id, bool useShorthand) => AddClassAlias(id, useShorthand);
+		public void Test_008_AddDefaultClassAlias(int id, bool useShorthand) => AddClassAlias(id, useShorthand);
 
 
 		[TestCase(0, false)]
 		[TestCase(0, true)]
-		public void Test_017_AddDefaultPropertyDefAlias(int id, bool useShorthand) => AddPropertyAlias(id, useShorthand);
+		public void Test_009_AddDefaultPropertyDefAlias(int id, bool useShorthand) => AddPropertyAlias(id, useShorthand);
 
 		#endregion
 
@@ -406,15 +406,15 @@ namespace MFToolboxTests
 
 		[TestCase(0, false)]
 		[TestCase(0, true)]
-		public void Test_018_RemoveDefaultObjTypeAlias(int id, bool useShorthand) => RemoveObjTypeAlias(id, useShorthand);
+		public void Test_010_RemoveDefaultObjTypeAlias(int id, bool useShorthand) => RemoveObjTypeAlias(id, useShorthand);
 
 		[TestCase(0, false)]
 		[TestCase(0, true)]
-		public void Test_019_RemoveClassAlias(int id, bool useShorthand) => RemoveClassAlias(id, useShorthand);
+		public void Test_011_RemoveClassAlias(int id, bool useShorthand) => RemoveClassAlias(id, useShorthand);
 
 		[TestCase(0, false)]
 		[TestCase(0, true)]
-		public void Test_020_RemovePropertyDefAlias(int id, bool useShorthand) => RemovePropertyAlias(id, useShorthand);
+		public void Test_012_RemovePropertyDefAlias(int id, bool useShorthand) => RemovePropertyAlias(id, useShorthand);
 
 		#endregion
 
@@ -493,13 +493,13 @@ namespace MFToolboxTests
 		}
 
 		[TestCase(0)]
-		public void Test_018_ClearDefaultObjTypeAlias(int id) => ClearObjTypeAlias(id);
+		public void Test_013_ClearDefaultObjTypeAlias(int id) => ClearObjTypeAlias(id);
 
 		[TestCase(0)]
-		public void Test_019_ClearClassAlias(int id) => ClearClassAlias(id);
+		public void Test_014_ClearClassAlias(int id) => ClearClassAlias(id);
 
 		[TestCase(0)]
-		public void Test_020_ClearPropertyDefAlias(int id) => ClearPropertyAlias(id);
+		public void Test_015_ClearPropertyDefAlias(int id) => ClearPropertyAlias(id);
 
 		#endregion
 	}
