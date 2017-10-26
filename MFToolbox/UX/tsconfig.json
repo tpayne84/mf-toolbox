@@ -1,0 +1,13 @@
+﻿{
+  "compilerOptions": {
+    "sourceMap": true,
+    "target": "es5",
+    "experimentalDecorators": true,
+    "lib": [ "es5" ],
+    "module": "ES5",
+    "rootDir": "./"
+  },
+  "include": [ "**/*" ],
+  "exclude": [],
+  "compileOnSave": true
+}

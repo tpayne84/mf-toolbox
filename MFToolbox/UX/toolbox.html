@@ -1,70 +1,29 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+﻿<!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-	<title>Metadata Card Demo</title>
+	<title>MF-Toolbox</title>
 
-	<!-- Style sheets -->
-	<link type="text/css" href="js/UIControlLibrary/uicontrollibrary.css" rel="Stylesheet" />
-	<link type="text/css" href="css/style.css" rel="stylesheet" />
-
-	<!-- jQuery -->
-	<script type="text/javascript" src="UIControlLibrary/jquery-ui-1.8.19/js/jquery-1.7.2.min.js"></script>
-	<script type="text/javascript" src="UIControlLibrary/jquery-ui-1.8.19/js/jquery-ui-1.8.19.custom.min.js"></script>
-	<script type="text/javascript" src="UIControlLibrary/jquery.timeentry-1.4.9/jquery.timeentry.js"></script>
-
-	<!-- UI Control Library -->
-	<script type="text/javascript" src="UIControlLibrary/uicontrols.js"></script>
+    <script src="redist/angular/angular.js"></script>    
 	<script>
-
 		"use strict";
 
-		function OnNewDashboard( dashboard ) {
-			/// <summary>The entry point of Dashboard.</summary>
-			/// <param name="dashboard" type="MFiles.Dashboard">The new Dashboard object.</param>
+        /**
+         * MF-Toolbox Controller.
+         */
+        var toolboxCtrl;
 
-			MFiles_UIControls.initialize( dashboard , {
-			
-				// onInitialize.
-				onInitialize: function( db ) {
-				
-					// Set excluded properties for dynamic controls (by property definition values).
-					db.setExcludedProperties( [ 24, 31, 30, 32, 81, 89 ] );
-				},
-			} );		
-		}
-
+        /**
+         * Entry point to the dashboard.
+         * @param dashboard
+         */
+        function OnNewDashboard(dashboard) {
+            toolboxCtrl = new MFToolboxCtrl();
+        }
 	</script>
 </head>
 <body>
-	<div class="mf-metadatacard">
-		<div id="page">
-			<div id="content">
 
-				<!-- Static controls -->
-
-				<!-- Title -->
-				<h2>
-					<span class="mf-control mf-text mf-required" data-mf-propertydef="0">
-						<span class="mf-helptext" style="color:#999999">[Title]</span>
-					</span>
-				</h2>
-				<!-- End of static controls -->
-				<br/>
-				<br/>
-
-				<!-- Dynamic controls -->
-				<div class="mf-dynamic-controls"></div>
-				<br/>
-				<br/>
-
-				<!-- Save and Close buttons -->
-				<button class="mf-savebutton">Save</button>&nbsp;&nbsp;
-				<button class="mf-closebutton">Close</button>
-				<br/>
-				<br/>
-			</div>
-		</div>
-	</div>
+    <script src="bundle.js"></script>
 </body>
 </html>

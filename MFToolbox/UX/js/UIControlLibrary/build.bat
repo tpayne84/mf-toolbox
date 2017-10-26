@@ -1,1 +1,0 @@
-copy basecontrol.js + booleancontrol.js + datecontrol.js + dynamiccontrolcontainer.js + labelcontrol.js + localization.js + lookupcontrol.js + metadatacard.js + multiselectlookupcontrol.js + numbercontrol.js + textcontrol.js + timecontrol.js + timestampcontrol.js + main.js + utilities.js + vaultoperations.js uicontrols.js
